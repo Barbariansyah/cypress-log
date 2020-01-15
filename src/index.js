@@ -27,7 +27,7 @@ function writeFailedTestInfo({
   };
   const str = JSON.stringify(info, null, 2) + "\n";
   const cleaned = cleanupFilename(testName);
-  const filename = `failed-${cleaned}.json`;
+  const filename = `${cleaned}.json`;
   const filepath = getFilepath(filename);
   cy.writeFile(filepath, str).log(
     `saved failed test information to ${filename}`
