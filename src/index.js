@@ -94,10 +94,18 @@ function onFailed() {
   doneWithTest(testName);
 
   const title = this.currentTest.title;
-  const screenshotName = `${cleanupFilename(title)}-failed`;
-  cy.wait(1000).log("waited for UI before capturing screenshot");
-  cy.screenshot(screenshotName);
-  cy.wait(1000);
+
+  var screenshot;
+
+  if (this.currentTest.state === "passed") {
+    screenshot = ``;
+  } else {
+    const screenshotName = `${cleanupFilename(title)}-failed`;
+    cy.wait(1000).log("waited for UI before capturing screenshot");
+    cy.screenshot(screenshotName);
+    cy.wait(1000);
+    screenshot = `${screenshotName}.png`;
+  }
 
   const suiteName = this.currentTest.parent && this.currentTest.parent.title;
 
@@ -119,8 +127,6 @@ function onFailed() {
   const testCommands = Cypress._.map(commands, "message");
 
   const specName = path.basename(window.location.pathname);
-
-  const screenshot = `${screenshotName}.png`;
 
   console.log("=== test failed ===");
   console.log(specName);
